@@ -1,8 +1,6 @@
 #include "buttonstate.h"
 
 int buttonWriteStatePins[MAX_ZONES] = {
-  0,
-  1,
   2,
   3,
   4,

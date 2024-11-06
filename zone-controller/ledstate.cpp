@@ -1,8 +1,6 @@
 #include "ledstate.h"
 
 int ledReadStatePins[MAX_ZONES] = {
-  11,
-  10,
   9,
   8,
   7,
