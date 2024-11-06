@@ -14,11 +14,13 @@ HttpResponse handleGetZoneState(WiFiClient client, HttpRequest request) {
 HttpResponse handleSetZoneState(WiFiClient client, HttpRequest request) {
   JsonDocument doc;
   deserializeJson(doc, request.body);
-  ZoneState zoneState;
+  ZoneState zoneState = getLedState();
+  ZoneState buttonState;
   for (int i = 0; i < MAX_ZONES; i++) {
-    zoneState.enabled[i] = doc["zone" + String(i)] == "enabled";
+    buttonState.enabled[i] = (doc["zone" + String(i)] == "enabled") != zoneState.enabled[i];
   }
-  setButtonState(zoneState);
-  return { HTTP_ACCEPTED, CONTENT_TYPE_PLAIN_TEST, "" };
+  setButtonState(buttonState);
+  HttpResponse response = handleGetZoneState(client, request);
+  return { HTTP_ACCEPTED, CONTENT_TYPE_PLAIN_TEST, response.body };
 }
 
